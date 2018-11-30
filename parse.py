@@ -1,5 +1,6 @@
 from nltk import Tree
-t = Tree.fromstring('(S (NP /John/) (VP (VP (V /plays/) (NP /soccer/)) (PP (P /at/) (NP /soccer/))))')
+t = Tree.fromstring('(S(NP /John/) (VP (V /plays/) (NP (NP /soccer/) (PP (P /at/) (NP /soccer/)))))')
+
 
 
 diq={"S -> NP VP":1,
