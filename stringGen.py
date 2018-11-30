@@ -1,6 +1,6 @@
 diq={'NP VP': ['S'], 'V NP': ['VP'], 'VP PP': ['VP'], 'P NP': ['PP'], 'NP PP': ['NP'], 'John': ['NP'], 'soccer': ['NP'], 'school': ['NP'], 'plays': ['V'], 'at': ['P']}
 
-input=['John', 'plays', 'soccer', 'at', 'soccer']
+input=['John', 'plays', 'soccer']
 '(S (NP /John/) (VP (VP (V /plays/) (NP /soccer/)) (PP (P /at/) (NP /soccer/))))'
 
 All=set()
@@ -13,8 +13,10 @@ def nodify(array):
     return arr
 
 def premute(array, words):
-    if 'S' in array:
-        All.add((' '.join(array),' '.join(words) ))
+    if array == ['S']:
+        temp=' '.join(words)
+        temp = temp.replace('(', '(S ', 1)
+        All.add((' '.join(array), temp ))
 
     for i in range (len(array)-1):
         left=array[i]
@@ -32,26 +34,17 @@ def premute(array, words):
                     newWords[i] = '(%s (%s %s))' % (val, newWords[i], newWords[i + 1])
                 newWords.pop(i + 1)
                 premute(newArr,newWords)
-#print(nodify(input))
-premute(nodify(input), input)
-for string in All:
-
-    new=string[1].replace('/(', '').replace(')/','')
-    print(string[0], ',', new)
 
 
+def get_tree_from_input():
+    premute(nodify(input), input)
+    for string in All:
+        new = string[1].replace('/(', '').replace(')/', '')
+        print(string[0], ',', new)
 
 
+#given an array of input, eg input=['John', 'plays', 'soccer', 'at', 'soccer'] at the begining of this file,
+#find all possible trees
+get_tree_from_input()
 
 
-
-# dict={}
-# for i in diq:
-#     #print (i)
-#     new = i.split(' -> ')
-#     if new[1] in dict:
-#         dict[new[1]].append(new[0])
-#     else:
-#         dict[new[1]] = [new[0]]
-#    # print('"',new[0],'"', ':[', '"', new[1], '"', '],')
-# print( dict)
